@@ -11,6 +11,7 @@ from functools import wraps
 import logging
 from time import perf_counter
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Summary, generate_latest
+from observability import configure_tracing
 
 # Configura o logging
 logging.basicConfig(level=logging.INFO)
@@ -20,6 +21,7 @@ log = logging.getLogger(__name__)
 load_dotenv() 
 
 app = Flask(__name__)
+configure_tracing(app, "targeting-service")
 
 http_requests = Counter(
     'http_requests_total', 'Total number of HTTP requests',
